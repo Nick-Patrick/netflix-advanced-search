@@ -19,7 +19,7 @@ const tabBarOptions = {
   },
   upperCaseLabel: false,
   indicatorStyle: {
-    backgroundColor: Colors.secondary
+    backgroundColor: '#CDB380'
   }
 }
 
