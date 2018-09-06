@@ -9,9 +9,9 @@ import Colors from '../constants/Colors'
 
 const tabBarOptions = {
   activeTintColor: '#fff',
-  inactiveTintColor: '#008C9E',
+  inactiveTintColor: '#C3D297',
   style: {
-    backgroundColor: '#005F6B',
+    backgroundColor: Colors.tabBar,
   },
   labelStyle: {
     fontSize: 15,
@@ -19,7 +19,7 @@ const tabBarOptions = {
   },
   upperCaseLabel: false,
   indicatorStyle: {
-    backgroundColor: '#00DFFC'
+    backgroundColor: Colors.secondary
   }
 }
 

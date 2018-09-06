@@ -11,10 +11,10 @@ export default {
   noticeBackground: tintColor,
   noticeText: '#fff',
 
-  tabBar: '#fefefe',
-  primary: '#008C9E',
-  primaryDark: '#005F6B',
-  secondary: '#343838',
+  tabBar: '#E8373E',
+  primary: '#E8373E',
+  primaryDark: '#3A2D19',
+  secondary: '#3A2D19',
   background: '',
   backgroundSecondary: '#fbfbfb'
 };
