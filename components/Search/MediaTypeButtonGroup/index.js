@@ -10,7 +10,7 @@ export default class MediaTypeButtonGroup extends React.Component {
   render () {
     return (
       <View style={styles.showTypeContainer}>
-        <TouchableHighlight onPress={this.props.onPress.bind(this, 'any')} style={[
+        <TouchableHighlight onPress={this.props.onPress.bind(this, 'Any')} style={[
           styles.showTypeButton, 
           styles.showTypeButtonFirst, 
           this.props.showTypeAllActive && styles.showTypeButtonActive
@@ -20,7 +20,7 @@ export default class MediaTypeButtonGroup extends React.Component {
             this.props.showTypeAllActive && styles.showTypeButtonTextActive
           ]}>All</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={this.props.onPress.bind(this, 'movie')} style={[
+        <TouchableHighlight onPress={this.props.onPress.bind(this, 'Movie')} style={[
           styles.showTypeButton,
           this.props.showTypeMoviesActive && styles.showTypeButtonActive
           ]}>
@@ -29,7 +29,7 @@ export default class MediaTypeButtonGroup extends React.Component {
             this.props.showTypeMoviesActive && styles.showTypeButtonTextActive
           ]}>Movies</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={this.props.onPress.bind(this, 'series')} style={[
+        <TouchableHighlight onPress={this.props.onPress.bind(this, 'Series')} style={[
           styles.showTypeButton, 
           styles.showTypeButtonLast,
           this.props.showTypeTVActive && styles.showTypeButtonActive

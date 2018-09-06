@@ -3,12 +3,14 @@ import {
   StyleSheet
 } from 'react-native';
 
+import Colors from '../../../constants/Colors'
+
 export default StyleSheet.create({
   showTypeContainer: {
     flexDirection: 'row',
   },
   showTypeButton: {
-    borderColor: '#343838',
+    borderColor: Colors.secondary,
     borderWidth: 1,
     paddingHorizontal: 20,
     paddingVertical: 12,
@@ -28,10 +30,10 @@ export default StyleSheet.create({
   showTypeButtonActive: {
     borderRightWidth: 1,
     borderLeftWidth: 1,
-    backgroundColor: '#343838'    
+    backgroundColor: Colors.secondary    
   },
   showTypeButtonText: {
-    color: '#343838',
+    color: Colors.secondary,
     fontWeight: '600'
   },
   showTypeButtonTextActive: {

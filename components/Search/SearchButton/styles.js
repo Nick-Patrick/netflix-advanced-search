@@ -2,6 +2,8 @@ import {
   StyleSheet
 } from 'react-native';
 
+import Colors from '../../../constants/Colors'
+
 export default StyleSheet.create({
   searchContainer: {
     position: 'absolute',
@@ -10,7 +12,7 @@ export default StyleSheet.create({
     right: 0,
     elevation: 20,
     alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    backgroundColor: Colors.backgroundSecondary,
     paddingVertical: 20,
     paddingTop: 10,
   },
@@ -35,7 +37,7 @@ export default StyleSheet.create({
   searchResetText: {
     lineHeight: 20,
     fontSize: 18,
-    color: '#005F6B',
+    color: Colors.primaryDark,
     fontWeight: '700',
     paddingLeft: 4,
   },
@@ -49,7 +51,7 @@ export default StyleSheet.create({
     paddingLeft: 50,
     paddingTop: 14,
     paddingBottom: 14,
-    backgroundColor: '#008C9E'
+    backgroundColor: Colors.primary
   },
   searchButtonText: {
     fontSize: 20,

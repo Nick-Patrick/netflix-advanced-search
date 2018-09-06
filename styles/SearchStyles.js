@@ -3,6 +3,8 @@ import {
   StyleSheet
 } from 'react-native';
 
+import Colors from '../constants/Colors'
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 17,
     lineHeight: 20,
-    color: '#343838'
+    color: Colors.secondary
   },
   keywordsLabel: {
     lineHeight: 20,

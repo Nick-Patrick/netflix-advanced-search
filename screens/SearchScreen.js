@@ -25,7 +25,7 @@ export default class SearchScreen extends React.Component {
     showTypeAllActive: true,
     showTypeMoviesActive: false,
     showTypeTVActive: false,
-    selectedMediaType: 'any',
+    selectedMediaType: 'Any',
     selectedGenreId: '',
     selectedRecentlyAddedDuration: '',
     selectedYearFrom: '',
@@ -67,8 +67,9 @@ export default class SearchScreen extends React.Component {
         <TextInput
           style={{ height: 40, width: 120, fontSize: 17, lineHeight: 20, paddingHorizontal: 4 }}
           onChangeText={(selectedKeywords) => this.setState({selectedKeywords})}
-          value={this.state.selectedKeywords}
+          value={this.state.selectedRecentlyAddedDuration ? '' : this.state.selectedKeywords}
           placeholder={'e.g. Brad Pitt'}
+          editable={!this.state.selectedRecentlyAddedDuration}
         />
       </View>
     )
@@ -126,9 +127,9 @@ export default class SearchScreen extends React.Component {
     const onFromValueChange = (selectedRatingMin) => this.setState({ selectedRatingMin })
     // const onToValueChange = (selectedRatingMax) => this.setState({ selectedRatingMax })
 
-    for (var i = 0; i <= 100; i++) {
+    for (var i = 0; i <= 10; i++) {
       if (i === 0) ratingMin.push({ label: 'Any', id: '' })
-      ratingMin.push({ label: i.toString(), id: i })
+      ratingMin.push({ label: i.toFixed(1).toString(), id: i })
     }
     // for (var i = 100; i >= 0; i--) ratingMax.push({ label: i.toString(), id: i })
     return this.renderDropdown('IMDB rating min', ratingMin, onFromValueChange.bind(this), this.state.selectedRatingMin)
@@ -138,9 +139,9 @@ export default class SearchScreen extends React.Component {
         <View style={styles.yearFromDropdown}>
           { this.renderDropdown('IMDB min rating', ratingMin, onFromValueChange.bind(this), this.state.selectedRatingMin) }
         </View>
-        // <View>
-        //   { this.renderDropdown('IMDB max rating', ratingMax, onToValueChange.bind(this), this.state.selectedRatingMax) }
-        // </View>
+         <View>
+           { this.renderDropdown('IMDB max rating', ratingMax, onToValueChange.bind(this), this.state.selectedRatingMax) }
+         </View>
       </View>
     )
   }
@@ -181,9 +182,9 @@ export default class SearchScreen extends React.Component {
   renderMediaTypeButtonGroup () {
     const setState = (type) => this.setState({
       selectedMediaType: type,
-      showTypeAllActive: type === 'any',
-      showTypeMoviesActive: type === 'movie',
-      showTypeTVActive: type === 'series'
+      showTypeAllActive: type === 'Any',
+      showTypeMoviesActive: type === 'Movie',
+      showTypeTVActive: type === 'Series'
     })
 
     return <MediaTypeButtonGroup 
@@ -201,12 +202,13 @@ export default class SearchScreen extends React.Component {
       startYear: this.state.selectedYearFrom,
       endYear: this.state.selectedYearTo,
       query: this.state.selectedKeywords,
+      recentlyAdded: this.state.selectedRecentlyAddedDuration,
       mediaType: this.state.selectedMediaType,
       minImdbRating: this.state.selectedRatingMin,
       maxImdbRating: this.state.selectedRatingMax
     }
 
-    const apiEndpoint = `https://us-central1-whatsonnetflix-991e9.cloudfunctions.net/getNetflixTitlesByCountryAndType?${qs.stringify(qsParams)}`
+    const apiEndpoint = `https://us-central1-whatsonnetflix-991e9.cloudfunctions.net/netflixAdvancedSearch?${qs.stringify(qsParams)}`
     console.log(apiEndpoint)
     // fetch(apiEndpoint, {
     //   method: "GET",
