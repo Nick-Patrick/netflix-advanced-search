@@ -10,7 +10,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   showTypeButton: {
-    borderColor: Colors.secondary,
+    borderColor: Colors.primary,
     borderWidth: 1,
     paddingHorizontal: 20,
     paddingVertical: 12,
@@ -30,7 +30,7 @@ export default StyleSheet.create({
   showTypeButtonActive: {
     borderRightWidth: 1,
     borderLeftWidth: 1,
-    backgroundColor: Colors.secondary    
+    backgroundColor: Colors.primary    
   },
   showTypeButtonText: {
     color: Colors.secondary,

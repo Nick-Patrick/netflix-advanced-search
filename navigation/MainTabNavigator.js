@@ -5,13 +5,14 @@ import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navig
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
+import GridScreen from '../screens/GridScreen';
 import Colors from '../constants/Colors'
 
 const tabBarOptions = {
   activeTintColor: '#fff',
-  inactiveTintColor: '#008C9E',
+  inactiveTintColor: '#C3D297',
   style: {
-    backgroundColor: '#005F6B',
+    backgroundColor: Colors.tabBar,
   },
   labelStyle: {
     fontSize: 15,
@@ -19,7 +20,7 @@ const tabBarOptions = {
   },
   upperCaseLabel: false,
   indicatorStyle: {
-    backgroundColor: '#00DFFC'
+    backgroundColor: '#CDB380'
   }
 }
 
@@ -34,6 +35,7 @@ HomeStack.navigationOptions = {
 
 const SearchStack = createStackNavigator({
   Search: SearchScreen,
+  Grid: GridScreen
 });
 
 SearchStack.navigationOptions = {
