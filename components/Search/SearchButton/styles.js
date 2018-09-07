@@ -23,6 +23,10 @@ export default StyleSheet.create({
   searchResetContainer: {
     flexDirection: 'row'
   },
+  loadingIconContainer: {
+    paddingHorizontal: 44,
+    paddingTop: 3,
+  },
   searchContainerText: {
     lineHeight: 18,
     fontSize: 14,
@@ -37,7 +41,7 @@ export default StyleSheet.create({
   searchResetText: {
     lineHeight: 20,
     fontSize: 18,
-    color: Colors.primaryDark,
+    color: Colors.secondary,
     fontWeight: '700',
     paddingLeft: 4,
   },

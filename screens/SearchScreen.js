@@ -5,12 +5,13 @@ import {
   View,
   Text,
   Picker,
-  TextInput
+  TextInput,
+  ToastAndroid
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import styles from '../styles/SearchStyles'
-import CustomHeader from '../components/CustomHeader'
 import { Ionicons } from '@expo/vector-icons'
+import _ from 'lodash'
 
 import SearchButton from '../components/Search/SearchButton'
 import MediaTypeButtonGroup from '../components/Search/MediaTypeButtonGroup'
@@ -22,17 +23,18 @@ export default class SearchScreen extends React.Component {
   }
 
   initialState = {
-    showTypeAllActive: true,
-    showTypeMoviesActive: false,
-    showTypeTVActive: false,
     selectedMediaType: 'Any',
     selectedGenreId: '',
     selectedRecentlyAddedDuration: '',
     selectedYearFrom: '',
-    selectedYearTo: new Date().getFullYear(),
+    selectedYearTo: '',
     selectedRatingMin: '',
     selectedRatingMax: 100,
-    selectedKeywords: ''
+    selectedKeywords: '',
+    isLoading: false,
+    titles: [],
+    extraTitles: [],
+    page: 1
   }
 
   state = this.initialState 
@@ -107,7 +109,11 @@ export default class SearchScreen extends React.Component {
       if (i === 1950) yearsFrom.push({ label: 'Any', id: '' })
       yearsFrom.push({ label: i.toString(), id: i })
     }
-    for (var i = currentYear; i >= this.state.selectedYearFrom; i--) yearsTo.push({ label: i.toString(), id: i })
+    
+    for (var i = currentYear; i >= this.state.selectedYearFrom; i--) {
+      if (i === 2018) yearsTo.push({ label: 'Any', id: '' })
+      yearsTo.push({ label: i.toString(), id: i })
+    }
 
     return (
       <View>
@@ -181,21 +187,19 @@ export default class SearchScreen extends React.Component {
 
   renderMediaTypeButtonGroup () {
     const setState = (type) => this.setState({
-      selectedMediaType: type,
-      showTypeAllActive: type === 'Any',
-      showTypeMoviesActive: type === 'Movie',
-      showTypeTVActive: type === 'Series'
+      selectedMediaType: type
     })
 
     return <MediaTypeButtonGroup 
       onPress={setState}
-      showTypeAllActive={this.state.showTypeAllActive}
-      showTypeMoviesActive={this.state.showTypeMoviesActive}
-      showTypeTVActive={this.state.showTypeTVActive}
+      showTypeAllActive={this.state.selectedMediaType === 'Any'}
+      showTypeMoviesActive={this.state.selectedMediaType === 'Movie'}
+      showTypeTVActive={this.state.selectedMediaType === 'Series'}
     />
   }
 
   onSearchPress () {
+    this.setState({ isLoading: true })
     const qsParams = {
       genreId: this.state.selectedGenreId,
       countryId: this.state.selectedCountryId,
@@ -205,28 +209,66 @@ export default class SearchScreen extends React.Component {
       recentlyAdded: this.state.selectedRecentlyAddedDuration,
       mediaType: this.state.selectedMediaType,
       minImdbRating: this.state.selectedRatingMin,
-      maxImdbRating: this.state.selectedRatingMax
+      maxImdbRating: this.state.selectedRatingMax,
+      page: this.state.page
     }
 
     const apiEndpoint = `https://us-central1-whatsonnetflix-991e9.cloudfunctions.net/netflixAdvancedSearch?${qs.stringify(qsParams)}`
-    console.log(apiEndpoint)
-    // fetch(apiEndpoint, {
-    //   method: "GET",
-    //   headers: {
-    //     'Accept': 'application/json, text/plain, */*',
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    // .then(resp => resp.json())
-    // .then(json => {
-    //   console.log('we have json', json)
-    // })
+
+    fetch(apiEndpoint, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      this.setState({ 
+        isLoading: false,
+        titles: json.results
+      }, () => {
+        if (!json.results || !json.results.length) {
+          return ToastAndroid.showWithGravity(
+            'No titles found, maybe try something else?',
+            ToastAndroid.CENTER,
+            ToastAndroid.SHORT
+          )
+        }
+        
+        const { navigate } = this.props.navigation;
+        navigate('Grid', { titles: this.state.titles, qsParams })
+      })
+    })
   }
 
   renderSearchArea () {
     return <SearchButton 
       onResetPress={() => { this.setState(this.initialState)}}
-      onSearchPress={this.onSearchPress.bind(this)}
+      onSearchPress={() => { this.onSearchPress() }}
+      optionsSelected={this.getOptionsSelected()}
+      isLoading={this.state.isLoading}
     />
+  }
+
+  getOptionsSelected () {
+    function difference(object, base) {
+	    function changes(object, base) {
+		    return _.transform(object, function(result, value, key) {
+          if (!_.isEqual(value, base[key])) {
+            result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
+          }
+        })
+      }
+      return changes(object, base);
+    }
+
+    const optionsSelected = difference(this.state, this.initialState)
+    delete optionsSelected['titles']
+    delete optionsSelected['isLoading']
+    delete optionsSelected['page']
+    delete optionsSelected['extraTitles']
+
+    return Object.keys(optionsSelected).length
   }
 }

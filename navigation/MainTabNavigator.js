@@ -5,6 +5,7 @@ import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navig
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
+import GridScreen from '../screens/GridScreen';
 import Colors from '../constants/Colors'
 
 const tabBarOptions = {
@@ -34,6 +35,7 @@ HomeStack.navigationOptions = {
 
 const SearchStack = createStackNavigator({
   Search: SearchScreen,
+  Grid: GridScreen
 });
 
 SearchStack.navigationOptions = {
