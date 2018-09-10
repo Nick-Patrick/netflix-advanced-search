@@ -43,6 +43,25 @@ const styles = StyleSheet.create({
   },
   yearFromDropdown: {
     paddingBottom: 16
+  },
+  dropdownButton: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: Colors.primary,
+    marginHorizontal: 30    
+  },
+  dropdownText: {
+    fontSize: 17,
+    padding: 4
+  },
+  dropdownModal: {
+    marginBottom: 20
+  },
+  dropdownModalText: {
+    fontSize: 22,
+    paddingLeft: 20,
+    color: Colors.tabBar,
+    paddingVertical: 10,
+    fontWeight: '600'
   }
 })
 

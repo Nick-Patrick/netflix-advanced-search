@@ -1,11 +1,12 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import React from 'react'
+import { Platform } from 'react-native'
+import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation'
 
-import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import SearchScreen from '../screens/SearchScreen';
-import GridScreen from '../screens/GridScreen';
+import TabBarIcon from '../components/TabBarIcon'
+import HomeScreen from '../screens/HomeScreen'
+import SearchScreen from '../screens/SearchScreen'
+import GridScreen from '../screens/GridScreen'
+import TitleScreen from '../screens/TitleScreen'
 import Colors from '../constants/Colors'
 
 const tabBarOptions = {
@@ -35,7 +36,8 @@ HomeStack.navigationOptions = {
 
 const SearchStack = createStackNavigator({
   Search: SearchScreen,
-  Grid: GridScreen
+  Grid: GridScreen,
+  Title: TitleScreen
 });
 
 SearchStack.navigationOptions = {

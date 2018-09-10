@@ -12,10 +12,11 @@ import { WebBrowser } from 'expo';
 import styles from '../styles/SearchStyles'
 import { Ionicons } from '@expo/vector-icons'
 import _ from 'lodash'
-
+import qs from 'qs'
 import SearchButton from '../components/Search/SearchButton'
 import MediaTypeButtonGroup from '../components/Search/MediaTypeButtonGroup'
-import qs from 'qs'
+import ModalDropdown from 'react-native-modal-dropdown'
+import Layout from '../constants/Layout'
 
 export default class SearchScreen extends React.Component {
   static navigationOptions = {
@@ -78,22 +79,26 @@ export default class SearchScreen extends React.Component {
   }
 
   renderDropdown (label, data, onValueChange, state) {
+    const values = [].concat(data.map(item => item.label))
+
     return (
       <View style={styles.formInputContainer}>
         <Text style={styles.formInputLabel}>{label}</Text>
-        <Picker 
-          selectedValue={state}
-          style={styles.dropdown}
-          onValueChange={onValueChange}>
-          { 
-            data.map(item => {
-              return <Picker.Item
-                label={item.label}
-                key={item.id} 
-                value={item.id}/>
-            })
-          }
-        </Picker>
+        <ModalDropdown 
+          defaultValue={'Any'}
+          style={styles.dropdownButton}
+          textStyle={styles.dropdownText}
+          adjustFrame={(obj) => {
+            obj.top = 50
+            obj.left = 0
+            obj.height = Layout.window.height - 70
+            obj.width = Layout.window.width
+            return obj
+          }}
+          dropdownStyle={styles.dropdownModal}
+          dropdownTextStyle={styles.dropdownModalText}
+          options={values} 
+          onSelect={onValueChange}/>
       </View>
     )
   }
@@ -102,15 +107,15 @@ export default class SearchScreen extends React.Component {
     const currentYear = new Date().getFullYear()
     const yearsFrom = []
     const yearsTo = []
-    const onFromValueChange = (selectedYearFrom) => this.setState({ selectedYearFrom })
-    const onToValueChange = (selectedYearTo) => this.setState({ selectedYearTo })
+    const onFromValueChange = index => this.setState({ selectedYearFrom: yearsFrom[index] })
+    const onToValueChange = index => this.setState({ selectedYearTo: yearsTo[index] })
 
     for (var i = 1950; i <= currentYear; i++) {
       if (i === 1950) yearsFrom.push({ label: 'Any', id: '' })
       yearsFrom.push({ label: i.toString(), id: i })
     }
     
-    for (var i = currentYear; i >= this.state.selectedYearFrom; i--) {
+    for (var i = 2019; i >= this.state.selectedYearFrom; i--) {
       if (i === 2018) yearsTo.push({ label: 'Any', id: '' })
       yearsTo.push({ label: i.toString(), id: i })
     }
@@ -153,7 +158,7 @@ export default class SearchScreen extends React.Component {
   }
 
   renderGenreDropdown () {
-    const onValueChange = (selectedGenreId) => this.setState({ selectedGenreId })
+    const onValueChange = index => this.setState({ selectedGenreId: genres[index] })
     const genres = [
       { id: '', label: 'Any' },
       { id: 1365, label: 'Action' },
@@ -170,7 +175,7 @@ export default class SearchScreen extends React.Component {
   }
 
   renderRecentlyAddedDurationDropdown () {
-    const onValueChange = (selectedRecentlyAddedDuration) => this.setState({ selectedRecentlyAddedDuration })
+    const onValueChange = index => this.setState({ selectedRecentlyAddedDuration: days[index] })
     const days = [
       { id: '', label: 'Any' },
       { id: 1, label: '1 Day' },
@@ -186,9 +191,7 @@ export default class SearchScreen extends React.Component {
   }
 
   renderMediaTypeButtonGroup () {
-    const setState = (type) => this.setState({
-      selectedMediaType: type
-    })
+    const setState = type => this.setState({ selectedMediaType: type })
 
     return <MediaTypeButtonGroup 
       onPress={setState}

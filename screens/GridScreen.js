@@ -4,8 +4,7 @@ import {
   TouchableHighlight,
   View,
   Image,
-  FlatList,
-  ActivityIndicator
+  FlatList
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import styles from '../styles/GridStyles'
@@ -15,7 +14,7 @@ import _ from 'lodash'
 
 export default class GridScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   }
 
   state = {
@@ -25,7 +24,7 @@ export default class GridScreen extends React.Component {
   }
 
   keyExtractor = (item, index) => { 
-    if (item) return item.id
+    // if (item) return item.id
     return index
   }
 
@@ -36,7 +35,10 @@ export default class GridScreen extends React.Component {
     
     return (
       <TouchableHighlight
-        onPress={ () => {} }
+        onPress={() => {
+          const { navigate } = this.props.navigation;
+          navigate('Title', { title: item })
+        }}
         activeOpacity={0.6}>
         <View>
           <Image
@@ -53,7 +55,7 @@ export default class GridScreen extends React.Component {
     
     const qsParams = this.props.navigation.getParam('qsParams', {})
     qsParams.page = this.state.page
-    console.log('onMoreSearch', qsParams)
+
     const apiEndpoint = `https://us-central1-whatsonnetflix-991e9.cloudfunctions.net/netflixAdvancedSearch?${qs.stringify(qsParams)}`
     
     fetch(apiEndpoint, {
@@ -87,12 +89,11 @@ export default class GridScreen extends React.Component {
           keyExtractor={this.keyExtractor}
           data={validTitles.concat(extraValidTitles)}
           extraData={this.state}
-          renderItem={this.renderItem}
+          renderItem={this.renderItem.bind(this)}
           numColumns={4}
           onEndReached={_.throttle(this.onMoreSearch.bind(this), 10000)}
           onEndReachedThreshold={1}
         />
-        { this.state.isLoading && <View style={styles.loadingContainer}><ActivityIndicator size="small" color="#fff" /></View> }
       </View>
     )
   }

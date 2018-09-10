@@ -16,5 +16,6 @@ export default {
   primaryDark: '#033649',
   secondary: '#033649',
   background: '#1c1c1c',
-  backgroundSecondary: '#F0EFED'
+  backgroundSecondary: '#F0EFED',
+  tint: '#CDB380'
 };

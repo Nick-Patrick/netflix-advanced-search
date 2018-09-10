@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.background,
     paddingRight: 1,
+    height: Layout.window.height
   },
   tile: {
     padding: 1, 
@@ -17,13 +18,6 @@ const styles = StyleSheet.create({
     marginBottom: 1, 
     shadowOpacity: 0, 
     shadowRadius: 0
-  },
-  loadingContainer: {
-    paddingTop: 30,
-    flex: 1,
-    height: 50,
-    flexDirection: 'row',
-    justifyContent: 'center'
   }
 })
 
