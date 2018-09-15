@@ -24,6 +24,7 @@ export default class SearchScreen extends React.Component {
   }
 
   initialState = {
+    selectedCountryId: 'US',
     selectedMediaType: 'Any',
     selectedGenreId: '',
     selectedRecentlyAddedDuration: '',
@@ -46,6 +47,8 @@ export default class SearchScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           { this.renderMediaTypeButtonGroup() }
+          { this.renderDivider() }
+          { this.renderCountryDropdown() }
           { this.renderDivider() }
           { this.renderGenreDropdown() }
           { this.renderDivider() }
@@ -85,7 +88,7 @@ export default class SearchScreen extends React.Component {
         <Text style={styles.formInputLabel}>{label}</Text>
         <ModalDropdown 
           ref="a"
-          defaultValue={'Any'}
+          defaultValue={state ? values[0] : 'Any'}
           style={styles.dropdownButton}
           textStyle={styles.dropdownText}
           adjustFrame={(obj) => {
@@ -160,6 +163,28 @@ export default class SearchScreen extends React.Component {
          </View>
       </View>
     )
+  }
+
+  renderCountryDropdown () {
+    const countries = [
+      { id: 'US', label: 'United States' },
+      { id: 'AU', label: 'Australia' },
+      { id: 'BR', label: 'Brazil' },
+      { id: 'CA', label: 'Canada' },
+      { id: 'FR', label: 'France' },
+      { id: 'DE', label: 'Germany' },
+      { id: 'IN', label: 'India' },
+      { id: 'IT', label: 'Italy' },
+      { id: 'JP', label: 'Japan' },
+      { id: 'NL', label: 'Netherlands' },
+      { id: 'PL', label: 'Poland' },
+      { id: 'RU', label: 'Russia' },
+      { id: 'SE', label: 'Spain'},
+      { id: 'GB', label: 'United Kingdom' }
+    ]
+
+    const onValueChange = index => this.setState({ selectedCountryId: countries[index].id })
+    return this.renderDropdown('Country', countries, onValueChange.bind(this), this.state.selectedCountryId)
   }
 
   renderGenreDropdown () {

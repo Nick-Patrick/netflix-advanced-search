@@ -41,7 +41,7 @@ const SearchStack = createStackNavigator({
 });
 
 SearchStack.navigationOptions = {
-  tabBarLabel: 'Flix',
+  tabBarLabel: 'Flix - Advanced Netflix Search',
   tabBarOptions
 };
 
