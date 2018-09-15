@@ -25,10 +25,16 @@ export default class SearchButton extends React.Component {
         </View>
 
         <View style={[styles.searchButtonContainer]}>
-          <TouchableHighlight underlayColor={Colors.secondary} onPress={this.props.onSearchPress} style={styles.searchButton}>
-            { this.props.isLoading 
+          <TouchableHighlight underlayColor={Colors.background} onPress={this.props.onRecentlyAddedPress} style={styles.searchNewButton}>
+            { this.props.isLoadingNew
               ? <View style={styles.loadingIconContainer}><ActivityIndicator size="small" color="#fff" /></View>
-              : <Text style={styles.searchButtonText}>Search Netflix</Text>
+              : <Text style={styles.searchButtonText}>Recently Added</Text>
+            }
+          </TouchableHighlight>
+          <TouchableHighlight underlayColor={Colors.background} onPress={this.props.onSearchPress} style={styles.searchButton}>
+            { this.props.isLoading 
+              ? <View style={styles.loadingIconContainerSmall}><ActivityIndicator size="small" color="#fff" /></View>
+              : <Text style={styles.searchButtonText}>Search</Text>
             }
           </TouchableHighlight>
         </View>

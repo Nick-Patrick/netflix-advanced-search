@@ -1,17 +1,17 @@
 {
   "expo": {
-    "name": "netflix-guide",
-    "description": "A very interesting project.",
-    "slug": "netflix-guide",
+    "name": "Flix",
+    "description": "Make the most of your Netflix subscription.",
+    "slug": "flix",
     "privacy": "public",
     "sdkVersion": "29.0.0",
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/flixIcon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/flixSplash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "androidStatusBar": {

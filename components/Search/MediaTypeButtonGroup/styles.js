@@ -8,6 +8,7 @@ import Colors from '../../../constants/Colors'
 export default StyleSheet.create({
   showTypeContainer: {
     flexDirection: 'row',
+    paddingTop: 4,
   },
   showTypeButton: {
     borderColor: Colors.primary,

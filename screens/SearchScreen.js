@@ -33,6 +33,7 @@ export default class SearchScreen extends React.Component {
     selectedRatingMax: 100,
     selectedKeywords: '',
     isLoading: false,
+    isLoadingNew: false,
     titles: [],
     extraTitles: [],
     page: 1
@@ -47,8 +48,6 @@ export default class SearchScreen extends React.Component {
           { this.renderMediaTypeButtonGroup() }
           { this.renderDivider() }
           { this.renderGenreDropdown() }
-          { this.renderDivider() }
-          { this.renderRecentlyAddedDurationDropdown() }
           { this.renderDivider() }
           { this.renderYearsDropdown() }
           { this.renderDivider() }
@@ -81,10 +80,11 @@ export default class SearchScreen extends React.Component {
   renderDropdown (label, data, onValueChange, state) {
     const values = [].concat(data.map(item => item.label))
 
-    return (
+    const el = (
       <View style={styles.formInputContainer}>
         <Text style={styles.formInputLabel}>{label}</Text>
         <ModalDropdown 
+          ref="a"
           defaultValue={'Any'}
           style={styles.dropdownButton}
           textStyle={styles.dropdownText}
@@ -101,14 +101,15 @@ export default class SearchScreen extends React.Component {
           onSelect={onValueChange}/>
       </View>
     )
+
+    return el
   }
 
   renderYearsDropdown () {
     const currentYear = new Date().getFullYear()
     const yearsFrom = []
     const yearsTo = []
-    const onFromValueChange = index => this.setState({ selectedYearFrom: yearsFrom[index] })
-    const onToValueChange = index => this.setState({ selectedYearTo: yearsTo[index] })
+   
 
     for (var i = 1950; i <= currentYear; i++) {
       if (i === 1950) yearsFrom.push({ label: 'Any', id: '' })
@@ -119,6 +120,9 @@ export default class SearchScreen extends React.Component {
       if (i === 2018) yearsTo.push({ label: 'Any', id: '' })
       yearsTo.push({ label: i.toString(), id: i })
     }
+
+    const onFromValueChange = index => this.setState({ selectedYearFrom: yearsFrom[index].id })
+    const onToValueChange = index => this.setState({ selectedYearTo: yearsTo[index].id })
 
     return (
       <View>
@@ -135,15 +139,16 @@ export default class SearchScreen extends React.Component {
   renderRatingsDropdown () {
     const ratingMin = []
     const ratingMax = []
-    const onFromValueChange = (selectedRatingMin) => this.setState({ selectedRatingMin })
-    // const onToValueChange = (selectedRatingMax) => this.setState({ selectedRatingMax })
 
     for (var i = 0; i <= 10; i++) {
       if (i === 0) ratingMin.push({ label: 'Any', id: '' })
       ratingMin.push({ label: i.toFixed(1).toString(), id: i })
     }
-    // for (var i = 100; i >= 0; i--) ratingMax.push({ label: i.toString(), id: i })
-    return this.renderDropdown('IMDB rating min', ratingMin, onFromValueChange.bind(this), this.state.selectedRatingMin)
+    for (var i = 10; i >= 0; i--) ratingMax.push({ label: i.toFixed(1).toString(), id: i })
+
+    const onFromValueChange = index => this.setState({ selectedRatingMin: ratingMin[index].id })    
+    const onToValueChange = index => this.setState({ selectedRatingMax: ratingMax[index].id })
+    // return this.renderDropdown('IMDB min rating', ratingMin, onFromValueChange.bind(this), this.state.selectedRatingMin)
 
     return (
       <View>
@@ -158,7 +163,6 @@ export default class SearchScreen extends React.Component {
   }
 
   renderGenreDropdown () {
-    const onValueChange = index => this.setState({ selectedGenreId: genres[index] })
     const genres = [
       { id: '', label: 'Any' },
       { id: 1365, label: 'Action' },
@@ -171,11 +175,12 @@ export default class SearchScreen extends React.Component {
       { id: 8933, label: 'Thriller' }
     ]
 
+    const onValueChange = index => this.setState({ selectedGenreId: genres[index].id })
     return this.renderDropdown('Genre', genres, onValueChange.bind(this), this.state.selectedGenreId)
   }
 
   renderRecentlyAddedDurationDropdown () {
-    const onValueChange = index => this.setState({ selectedRecentlyAddedDuration: days[index] })
+    const onValueChange = index => this.setState({ selectedRecentlyAddedDuration: days[index].id })
     const days = [
       { id: '', label: 'Any' },
       { id: 1, label: '1 Day' },
@@ -199,6 +204,41 @@ export default class SearchScreen extends React.Component {
       showTypeMoviesActive={this.state.selectedMediaType === 'Movie'}
       showTypeTVActive={this.state.selectedMediaType === 'Series'}
     />
+  }
+
+  onSearchNewPress () {
+    this.setState({ isLoadingNew: true })
+    const qsParams = {
+      countryId: this.state.selectedCountryId,
+      recentlyAdded: 7
+    }
+
+    const apiEndpoint = `https://us-central1-whatsonnetflix-991e9.cloudfunctions.net/netflixAdvancedSearch?${qs.stringify(qsParams)}`
+    fetch(apiEndpoint, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      this.setState({ 
+        isLoadingNew: false,
+        titles: json.results
+      }, () => {
+        if (!json.results || !json.results.length) {
+          return ToastAndroid.showWithGravity(
+            'No titles found, maybe try something else?',
+            ToastAndroid.CENTER,
+            ToastAndroid.SHORT
+          )
+        }
+        
+        const { navigate } = this.props.navigation;
+        navigate('Grid', { titles: this.state.titles, qsParams })
+      })
+    })
   }
 
   onSearchPress () {
@@ -249,8 +289,10 @@ export default class SearchScreen extends React.Component {
     return <SearchButton 
       onResetPress={() => { this.setState(this.initialState)}}
       onSearchPress={() => { this.onSearchPress() }}
+      onRecentlyAddedPress={() => { this.onSearchNewPress() }}
       optionsSelected={this.getOptionsSelected()}
       isLoading={this.state.isLoading}
+      isLoadingNew={this.state.isLoadingNew}
     />
   }
 
@@ -269,6 +311,7 @@ export default class SearchScreen extends React.Component {
     const optionsSelected = difference(this.state, this.initialState)
     delete optionsSelected['titles']
     delete optionsSelected['isLoading']
+    delete optionsSelected['isLoadingNew']
     delete optionsSelected['page']
     delete optionsSelected['extraTitles']
 

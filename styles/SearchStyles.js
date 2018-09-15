@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
   divider: {
     borderBottomColor: '#e2e2e2',
     borderBottomWidth: 1,
-    marginVertical: 20
+    marginVertical: 20,
+    marginTop: 24
   },
   formInputContainer: {
     flex: 1,
@@ -57,10 +58,10 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   dropdownModalText: {
-    fontSize: 22,
+    fontSize: 20,
     paddingLeft: 20,
     color: Colors.tabBar,
-    paddingVertical: 10,
+    paddingVertical: 18,
     fontWeight: '600'
   }
 })

@@ -41,11 +41,11 @@ const SearchStack = createStackNavigator({
 });
 
 SearchStack.navigationOptions = {
-  tabBarLabel: 'Advanced Search',
+  tabBarLabel: 'Flix',
   tabBarOptions
 };
 
 export default createMaterialTopTabNavigator({
   SearchStack,
-  HomeStack,
+  // HomeStack,
 });

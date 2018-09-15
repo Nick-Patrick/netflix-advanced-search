@@ -52,7 +52,7 @@ export default class TitleScreen extends React.Component {
 
   renderTitleDetails () {
     const title = this.state.titleDetails
-    console.log('title --->', title)
+
     return (
       <ScrollView style={styles.scrollContainer}>
         { this.renderCoverArt(title) }
@@ -72,7 +72,7 @@ export default class TitleScreen extends React.Component {
 
   renderWatchButton (title) {
     if (!title.nfinfo) return
-    console.log(`https://www.netflix.com/watch/${title.nfinfo.netflixid}`)
+
     return (
       <View>
         <TouchableHighlight

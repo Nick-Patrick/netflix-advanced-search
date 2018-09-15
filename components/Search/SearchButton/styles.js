@@ -24,7 +24,11 @@ export default StyleSheet.create({
     flexDirection: 'row'
   },
   loadingIconContainer: {
-    paddingHorizontal: 44,
+    paddingHorizontal: 50,
+    paddingTop: 3,
+  },
+  loadingIconContainerSmall: {
+    paddingHorizontal: 17,
     paddingTop: 3,
   },
   searchContainerText: {
@@ -49,13 +53,24 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.05)',
     borderRadius: 3,
     paddingHorizontal: 4,
+    flexDirection: 'row',
+    marginHorizontal: 10,
   },
   searchButton: {
     paddingRight: 50,
     paddingLeft: 50,
     paddingTop: 14,
     paddingBottom: 14,
-    backgroundColor: Colors.primary
+    backgroundColor: Colors.primary,
+    marginHorizontal: 5
+  },
+  searchNewButton: {
+    paddingRight: 50,
+    paddingLeft: 50,
+    paddingTop: 14,
+    paddingBottom: 14,
+    backgroundColor: Colors.primaryDark,
+    marginHorizontal: 5
   },
   searchButtonText: {
     fontSize: 20,
