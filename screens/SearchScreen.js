@@ -7,12 +7,13 @@ import {
   Picker,
   TextInput,
   ToastAndroid
-} from 'react-native';
-import { WebBrowser } from 'expo';
+} from 'react-native'
+import { AdMobInterstitial, FacebookAds } from 'expo'
 import styles from '../styles/SearchStyles'
 import { Ionicons } from '@expo/vector-icons'
 import _ from 'lodash'
 import qs from 'qs'
+import AdBanner from '../components/AdBanner'
 import SearchButton from '../components/Search/SearchButton'
 import MediaTypeButtonGroup from '../components/Search/MediaTypeButtonGroup'
 import ModalDropdown from 'react-native-modal-dropdown'
@@ -24,6 +25,7 @@ export default class SearchScreen extends React.Component {
   }
 
   initialState = {
+    adsShown: 0,
     selectedCountryId: 'US',
     selectedMediaType: 'Any',
     selectedGenreId: '',
@@ -40,7 +42,12 @@ export default class SearchScreen extends React.Component {
     page: 1
   }
 
-  state = this.initialState 
+  state = this.initialState
+
+  constructor(props) {
+    super(props)
+    AdMobInterstitial.setAdUnitID('ca-app-pub-1684745089786714/6325082779')
+  }
 
   render () {
     return (
@@ -60,6 +67,7 @@ export default class SearchScreen extends React.Component {
           { this.renderDivider() }
         </ScrollView>
         { this.renderSearchArea() }
+        <AdBanner/>
       </View>
     )
   }
@@ -103,7 +111,7 @@ export default class SearchScreen extends React.Component {
           options={values} 
           onSelect={onValueChange}/>
       </View>
-    )
+    ) 
 
     return el
   }
@@ -147,6 +155,7 @@ export default class SearchScreen extends React.Component {
       if (i === 0) ratingMin.push({ label: 'Any', id: '' })
       ratingMin.push({ label: i.toFixed(1).toString(), id: i })
     }
+    
     for (var i = 10; i >= 0; i--) ratingMax.push({ label: i.toFixed(1).toString(), id: i })
 
     const onFromValueChange = index => this.setState({ selectedRatingMin: ratingMin[index].id })    
@@ -262,6 +271,18 @@ export default class SearchScreen extends React.Component {
         
         const { navigate } = this.props.navigation;
         navigate('Grid', { titles: this.state.titles, qsParams })
+        
+        // if (this.state.adsShown == 0 || this.state.adsShown % 5 == 0)
+        // FacebookAds.InterstitialAdManager.showAd('720928951616342_721084251600812')
+        //   .then(didClick => {})
+        //   .catch(error => {})
+        // this.setState({adsShown: this.state.adsShown + 1})
+
+        if (this.state.adsShown == 0 || this.state.adsShown % 2 == 0) {
+          await AdMobInterstitial.requestAdAsync();
+          await AdMobInterstitial.showAdAsync();
+        }
+        this.setState({adsShown: this.state.adsShown + 1})
       })
     })
   }
@@ -306,6 +327,14 @@ export default class SearchScreen extends React.Component {
         
         const { navigate } = this.props.navigation;
         navigate('Grid', { titles: this.state.titles, qsParams })
+        // FacebookAds.InterstitialAdManager.showAd('720928951616342_721084251600812')
+        //   .then(didClick => {})
+        //   .catch(error => {})
+        // this.setState({adsShown: this.state.adsShown + 1})
+        AdMobInterstitial.requestAd().then(() => {
+          if (this.state.adsShown == 0 || this.state.adsShown % 5 == 0) AdMobInterstitial.showAd()
+          this.setState({adsShown: this.state.adsShown + 1})
+        })
       })
     })
   }
@@ -313,7 +342,9 @@ export default class SearchScreen extends React.Component {
   renderSearchArea () {
     return <SearchButton 
       onResetPress={() => { this.setState(this.initialState)}}
-      onSearchPress={() => { this.onSearchPress() }}
+      onSearchPress={() => {         
+        this.onSearchPress() 
+      }}
       onRecentlyAddedPress={() => { this.onSearchNewPress() }}
       optionsSelected={this.getOptionsSelected()}
       isLoading={this.state.isLoading}

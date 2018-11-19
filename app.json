@@ -4,11 +4,16 @@
     "description": "Make the most of your Netflix subscription.",
     "slug": "flix",
     "privacy": "public",
-    "sdkVersion": "29.0.0",
-    "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "sdkVersion": "31.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/flixIcon.png",
+    "facebookAppId": "1142034672638239",
+    "facebookDisplayName": "MyFlix",
     "splash": {
       "image": "./assets/images/flixSplash.png",
       "resizeMode": "cover",
@@ -28,7 +33,8 @@
       "bundleIdentifier": "com.tvguides.flix"
     },
     "android": {
-      "package": "com.tvguides.flix"
+      "package": "com.tvguides.flix",
+      "permissions": []
     }
   }
 }

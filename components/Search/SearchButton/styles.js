@@ -7,7 +7,7 @@ import Colors from '../../../constants/Colors'
 export default StyleSheet.create({
   searchContainer: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 50,
     left: 0,
     right: 0,
     elevation: 20,

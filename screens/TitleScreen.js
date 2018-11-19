@@ -13,6 +13,7 @@ import styles from '../styles/TitleStyles'
 import { Ionicons } from '@expo/vector-icons'
 import StarRating from 'react-native-star-rating'
 import Colors from '../constants/Colors'
+import AdBanner from '../components/AdBanner'
 
 export default class TitleScreen extends React.Component {
   static navigationOptions = {
@@ -46,6 +47,7 @@ export default class TitleScreen extends React.Component {
           ? <View style={styles.centerContainer}><ActivityIndicator size="large" color="#fff" /></View>
           : this.renderTitleDetails()
         }
+        <AdBanner/>
       </View>
     )
   }

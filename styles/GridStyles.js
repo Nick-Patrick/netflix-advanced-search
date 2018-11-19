@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.background,
     paddingRight: 1,
-    height: Layout.window.height - 60
+    height: Layout.window.height - 60,
+    paddingBottom: 40
   },
   tile: {
     padding: 1, 

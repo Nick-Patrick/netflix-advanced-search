@@ -9,11 +9,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingBottom: 100,    
   },
   contentContainer: {
     padding: 10,
     paddingVertical: 16,
+    paddingBottom: 140,    
   },
   divider: {
     borderBottomColor: '#e2e2e2',

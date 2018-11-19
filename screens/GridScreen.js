@@ -6,11 +6,11 @@ import {
   Image,
   FlatList
 } from 'react-native';
-import { WebBrowser } from 'expo';
 import styles from '../styles/GridStyles'
 import Layout from '../constants/Layout'
 import qs from 'qs'
 import _ from 'lodash'
+import AdBanner from '../components/AdBanner'
 
 export default class GridScreen extends React.Component {
   static navigationOptions = {
@@ -94,6 +94,7 @@ export default class GridScreen extends React.Component {
           onEndReached={_.throttle(this.onMoreSearch.bind(this), 10000)}
           onEndReachedThreshold={1}
         />
+        <AdBanner styles={{marginBottom: 12}}/>
       </View>
     )
   }

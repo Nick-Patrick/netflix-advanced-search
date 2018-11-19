@@ -18,7 +18,7 @@ export default class MediaTypeButtonGroup extends React.Component {
           <Text style={[
             styles.showTypeButtonText, 
             this.props.showTypeAllActive && styles.showTypeButtonTextActive
-          ]}>All</Text>
+          ]}>Alls</Text>
         </TouchableHighlight>
         <TouchableHighlight onPress={this.props.onPress.bind(this, 'Movie')} style={[
           styles.showTypeButton,
